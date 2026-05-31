@@ -69,7 +69,12 @@ JSON は次の `DrumTrack` 形式を想定しています。
 - `tom_mid`
 - `tom_high`
 
-サンプルは [`public/samples/basic-rock-16th.json`](public/samples/basic-rock-16th.json) を参照してください。
+サンプルは `public/samples/` を参照してください。現在は以下を用意しています。
+
+- [`basic-rock-16th.json`](public/samples/basic-rock-16th.json): 4小節の基本16分ロック。小節ブロック、同時打音、タム絡みを確認します。
+- [`eighth-note-groove.json`](public/samples/eighth-note-groove.json): 8分主体のグルーヴ。8th 表示の読みやすさを確認します。
+- [`rock-fill-2bar.json`](public/samples/rock-fill-2bar.json): 2小節目にタム回しとクラッシュ戻りを含むフィル確認用です。
+- [`thirty-second-check.json`](public/samples/thirty-second-check.json): 32分の細かいイベントで 32nd 表示の崩れにくさを確認します。
 
 ## 開発コマンド
 
@@ -77,6 +82,7 @@ JSON は次の `DrumTrack` 形式を想定しています。
 npm install
 npm run dev
 npm run build
+npm run check:samples
 npm run preview
 ```
 

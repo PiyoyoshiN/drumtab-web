@@ -1,0 +1,27 @@
+{
+  "bpm": 104,
+  "events": [
+    { "timeSec": 0.0, "durationSec": 0.06, "velocity": 0.92, "drum": "crash" },
+    { "timeSec": 0.0, "durationSec": 0.08, "velocity": 0.88, "drum": "kick" },
+    { "timeSec": 0.0, "durationSec": 0.05, "velocity": 0.6, "drum": "hh_closed" },
+    { "timeSec": 0.288, "durationSec": 0.05, "velocity": 0.52, "drum": "hh_closed" },
+    { "timeSec": 0.577, "durationSec": 0.05, "velocity": 0.64, "drum": "hh_closed" },
+    { "timeSec": 0.865, "durationSec": 0.05, "velocity": 0.5, "drum": "hh_closed" },
+    { "timeSec": 1.154, "durationSec": 0.08, "velocity": 0.86, "drum": "snare" },
+    { "timeSec": 1.154, "durationSec": 0.05, "velocity": 0.66, "drum": "hh_closed" },
+    { "timeSec": 1.442, "durationSec": 0.05, "velocity": 0.52, "drum": "hh_closed" },
+    { "timeSec": 1.731, "durationSec": 0.08, "velocity": 0.78, "drum": "kick" },
+    { "timeSec": 1.731, "durationSec": 0.05, "velocity": 0.62, "drum": "hh_closed" },
+    { "timeSec": 2.019, "durationSec": 0.05, "velocity": 0.5, "drum": "hh_closed" },
+    { "timeSec": 2.308, "durationSec": 0.08, "velocity": 0.84, "drum": "kick" },
+    { "timeSec": 2.308, "durationSec": 0.05, "velocity": 0.64, "drum": "hh_closed" },
+    { "timeSec": 2.596, "durationSec": 0.05, "velocity": 0.5, "drum": "hh_closed" },
+    { "timeSec": 2.885, "durationSec": 0.05, "velocity": 0.62, "drum": "hh_closed" },
+    { "timeSec": 3.173, "durationSec": 0.05, "velocity": 0.5, "drum": "hh_closed" },
+    { "timeSec": 3.462, "durationSec": 0.08, "velocity": 0.88, "drum": "snare" },
+    { "timeSec": 3.462, "durationSec": 0.05, "velocity": 0.66, "drum": "hh_open" },
+    { "timeSec": 3.75, "durationSec": 0.05, "velocity": 0.48, "drum": "hh_closed" },
+    { "timeSec": 4.038, "durationSec": 0.08, "velocity": 0.82, "drum": "kick" },
+    { "timeSec": 4.038, "durationSec": 0.05, "velocity": 0.62, "drum": "hh_closed" }
+  ]
+}

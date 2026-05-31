@@ -5,6 +5,7 @@ DrumTab Web の変更後は、可能な範囲で次の観点を確認します�
 ## ビルド
 
 - [ ] `npm run build` が成功する。
+- [ ] `npm run check:samples` が成功する。
 
 ## JSON 読み込み
 
@@ -64,3 +65,10 @@ DrumTab Web の変更後は、可能な範囲で次の観点を確認します�
 ## Grid 表示設計メモ
 
 - [ ] `docs/grid-notation-design.md` の現在の制約と次に直すべき点が、実装状況と大きくずれていない。
+
+## サンプル JSON 確認
+
+- [ ] `basic-rock-16th.json`: 4小節の小節ブロック、HH/SN/BD、クラッシュ、タム絡みを確認できる。
+- [ ] `eighth-note-groove.json`: 8th 表示で8分グルーヴが読みやすい。
+- [ ] `rock-fill-2bar.json`: 2小節目のタム回しとクラッシュ戻りが各レーンで追える。
+- [ ] `thirty-second-check.json`: 32nd 表示で細かい HH/SN/BD が崩れず表示される。
