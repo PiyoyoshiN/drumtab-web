@@ -5,6 +5,7 @@ import { velocityToMark } from "../core/model/velocityMarks";
 type GridCell = {
   text: string;
   velocity: number;
+  hitCount: number;
 };
 
 type GridViewOptions = {
@@ -17,10 +18,10 @@ const CELL_WIDTH = 3;
 const EMPTY_CELL = "───";
 
 const LANES: DrumName[] = [
+  "crash",
+  "ride",
   "hh_open",
   "hh_closed",
-  "ride",
-  "crash",
   "snare",
   "tom_high",
   "tom_mid",
@@ -33,20 +34,17 @@ export function createGridView(track: DrumTrack, options: GridViewOptions) {
   el.className = "grid-view";
 
   const pre = document.createElement("pre");
-  el.appendChild(pre);
+  const legend = document.createElement("div");
+  legend.className = "grid-view__legend";
+
+  el.append(pre, legend);
 
   const bpm = track.bpm ?? 120;
-  const secPerBeat = 60 / bpm;
   const stepsPerBeat = stepsPerBeatFor(options.resolution);
   const stepsPerBar = stepsPerBeat * BEATS_PER_BAR;
+  const secPerBeat = 60 / bpm;
   const secPerStep = secPerBeat / stepsPerBeat;
-
-  const endSec = track.events.reduce(
-    (max, event) => Math.max(max, event.timeSec + event.durationSec),
-    0
-  );
-  const usedSteps = Math.ceil(endSec / secPerStep) + stepsPerBeat;
-  const steps = Math.max(stepsPerBar, roundUpToBar(usedSteps, stepsPerBar));
+  const steps = measureAlignedStepCount(track, secPerStep, stepsPerBar);
 
   let playhead = -1;
 
@@ -60,6 +58,7 @@ export function createGridView(track: DrumTrack, options: GridViewOptions) {
     }
 
     const lines = [
+      `Grid ${options.resolution} | BPM ${bpm} | 4/4 | ${stepsPerBeat} cells/beat | ${steps / stepsPerBar} bars`,
       timelineLine("Bar", steps, stepsPerBeat, stepsPerBar, playhead, (step) =>
         step % stepsPerBar === 0 ? String(step / stepsPerBar + 1) : ""
       ),
@@ -74,6 +73,7 @@ export function createGridView(track: DrumTrack, options: GridViewOptions) {
     ];
 
     pre.textContent = lines.join("\n");
+    legend.textContent = "Legend: |小節 :拍 ▶再生位置 ───=空白/休符相当 x=HH o=open HH s=snare b=kick c=crash r=ride t=tom 大文字=accent (x)=ghost +=同一レーン同一セルに複数hit";
   }
 
   function setPlayhead(step: number) {
@@ -90,7 +90,7 @@ function makeEmptyGrid(steps: number): Record<DrumName, GridCell[]> {
   return Object.fromEntries(
     LANES.map((drum) => [
       drum,
-      Array.from({ length: steps }, () => ({ text: EMPTY_CELL, velocity: -1 }))
+      Array.from({ length: steps }, () => ({ text: EMPTY_CELL, velocity: -1, hitCount: 0 }))
     ])
   ) as Record<DrumName, GridCell[]>;
 }
@@ -102,12 +102,20 @@ function setGridCell(
   event: DrumEvent
 ) {
   const current = grid[drum][step];
-  if (current.velocity > event.velocity) return;
+  const nextHitCount = current.hitCount + 1;
+
+  if (current.hitCount > 0 && current.velocity > event.velocity) {
+    current.hitCount = nextHitCount;
+    current.text = collisionGlyph(current.text, nextHitCount);
+    return;
+  }
 
   const mark = velocityToMark(event.velocity);
+  const base = glyph(baseChar(drum), mark === "ghost", mark === "accent");
   grid[drum][step] = {
-    text: glyph(baseChar(drum), mark === "ghost", mark === "accent"),
-    velocity: event.velocity
+    text: collisionGlyph(base, nextHitCount),
+    velocity: event.velocity,
+    hitCount: nextHitCount
   };
 }
 
@@ -155,7 +163,7 @@ function countLabel(step: number, stepsPerBeat: number) {
   if (stepsPerBeat === 2) return pos === 0 ? String(beat) : "+";
   if (stepsPerBeat === 4) return [String(beat), "e", "+", "a"][pos];
 
-  return [String(beat), ".", "e", ".", "+", ".", "a", "."][pos] ?? "";
+  return [String(beat), "·", "e", "·", "+", "·", "a", "·"][pos] ?? "";
 }
 
 function stepsPerBeatFor(resolution: GridResolution) {
@@ -164,6 +172,14 @@ function stepsPerBeatFor(resolution: GridResolution) {
     case "16th": return 4;
     case "32nd": return 8;
   }
+}
+
+function measureAlignedStepCount(track: DrumTrack, secPerStep: number, stepsPerBar: number) {
+  const maxStep = track.events.reduce(
+    (max, event) => Math.max(max, Math.round(event.timeSec / secPerStep)),
+    0
+  );
+  return Math.max(stepsPerBar, roundUpToBar(maxStep + 1, stepsPerBar));
 }
 
 function roundUpToBar(steps: number, stepsPerBar: number) {
@@ -208,4 +224,11 @@ function glyph(base: string, ghost: boolean, accent: boolean) {
   if (ghost) return `(${base})`;
   if (accent) return ` ${base.toUpperCase()} `;
   return ` ${base} `;
+}
+
+function collisionGlyph(base: string, hitCount: number) {
+  if (hitCount <= 1) return base;
+  const trimmed = base.trim();
+  const char = trimmed.startsWith("(") ? trimmed.slice(1, 2) : trimmed.slice(0, 1);
+  return ` ${char}+`;
 }

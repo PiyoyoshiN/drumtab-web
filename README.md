@@ -82,7 +82,7 @@ npm run preview
 
 ## 手動確認
 
-主な手動確認項目は [`docs/manual-test-checklist.md`](docs/manual-test-checklist.md) にまとめています。特に既存の読み込み、表示、再生、MIDI 書き出しを壊さないことを重視してください。
+主な手動確認項目は [`docs/manual-test-checklist.md`](docs/manual-test-checklist.md) にまとめています。特に既存の読み込み、表示、再生、MIDI 書き出しを壊さないことを重視してください。 Grid 表示の記号と設計方針は [`docs/grid-notation-design.md`](docs/grid-notation-design.md) にまとめています。
 
 ## 譜面化強化ロードマップ
 
