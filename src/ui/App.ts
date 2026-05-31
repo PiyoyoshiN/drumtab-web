@@ -241,7 +241,7 @@ export function createApp() {
     const prepared = prepareTrackForView(state.track);
 
     if (state.viewMode === "Grid") {
-      gridView = createGridView(prepared);
+      gridView = createGridView(prepared, { resolution: state.gridRes });
       inner.appendChild(gridView.el);
     } else {
       gridView = null;
