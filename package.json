@@ -6,7 +6,10 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -p tsconfig.json && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "check:samples": "node scripts/check-samples.mjs",
+    "check:grid": "node scripts/check-grid-render.mjs",
+    "check": "npm run check:samples && npm run check:grid"
   },
   "dependencies": {
     "@ffmpeg/ffmpeg": "^0.12.6",
