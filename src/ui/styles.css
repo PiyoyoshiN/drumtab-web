@@ -110,3 +110,13 @@ input[type="range"]{ width: 180px; }
   padding: 12px;
   overflow:auto;
 }
+.grid-view{ display:grid; gap: 8px; }
+.grid-view__legend{
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+  background: rgba(0,0,0,.14);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 8px 10px;
+}
