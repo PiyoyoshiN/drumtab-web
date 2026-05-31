@@ -6,6 +6,8 @@ DrumTab Web の変更後は、可能な範囲で次の観点を確認します�
 
 - [ ] `npm run build` が成功する。
 - [ ] `npm run check:samples` が成功する。
+- [ ] `npm run check:grid` が成功する。
+- [ ] `npm run check` が成功する。
 
 ## JSON 読み込み
 
@@ -72,3 +74,10 @@ DrumTab Web の変更後は、可能な範囲で次の観点を確認します�
 - [ ] `eighth-note-groove.json`: 8th 表示で8分グルーヴが読みやすい。
 - [ ] `rock-fill-2bar.json`: 2小節目のタム回しとクラッシュ戻りが各レーンで追える。
 - [ ] `thirty-second-check.json`: 32nd 表示で細かい HH/SN/BD が崩れず表示される。
+- [ ] `long-rock-8bar.json`: 8小節が `=== Bars 1-4 / 8 ===` と `=== Bars 5-8 / 8 ===` に分かれ、各ブロックでレーン名が再掲される。
+
+## Grid 自動確認
+
+- [ ] `npm run check:grid` で全サンプル x 8th / 16th / 32nd の確認結果が表示される。
+- [ ] 32nd 表示などで行長 warning が出る場合、warning と失敗を区別して確認する。
+- [ ] `long-rock-8bar.json` の 16th 表示で2ブロックに分かれることを確認する。

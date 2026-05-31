@@ -3,6 +3,7 @@ import type { GridResolution } from "../../core/model/quantize";
 import { velocityToMark } from "../../core/model/velocityMarks";
 import {
   BEATS_PER_BAR,
+  DEFAULT_BARS_PER_BLOCK,
   EMPTY_CELL,
   GRID_LANES,
   type GridCell,
@@ -15,6 +16,7 @@ export function buildGridRenderModel(
   options: GridViewOptions
 ): GridRenderModel {
   const bpm = track.bpm ?? 120;
+  const barsPerBlock = normalizeBarsPerBlock(options.barsPerBlock);
   const stepsPerBeat = stepsPerBeatFor(options.resolution);
   const stepsPerBar = stepsPerBeat * BEATS_PER_BAR;
   const secPerBeat = 60 / bpm;
@@ -36,6 +38,7 @@ export function buildGridRenderModel(
     secPerStep,
     steps,
     bars: steps / stepsPerBar,
+    barsPerBlock,
     lanes: GRID_LANES.map((drum) => ({
       drum,
       label: laneLabel(drum),
@@ -50,6 +53,11 @@ export function stepsPerBeatFor(resolution: GridResolution) {
     case "16th": return 4;
     case "32nd": return 8;
   }
+}
+
+function normalizeBarsPerBlock(value: number | undefined) {
+  if (!Number.isFinite(value) || value === undefined) return DEFAULT_BARS_PER_BLOCK;
+  return Math.max(1, Math.min(8, Math.floor(value)));
 }
 
 function makeEmptyGrid(steps: number): Record<DrumName, GridCell[]> {

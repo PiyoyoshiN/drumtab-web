@@ -17,7 +17,8 @@ const requiredSamples = new Set([
   "basic-rock-16th.json",
   "eighth-note-groove.json",
   "rock-fill-2bar.json",
-  "thirty-second-check.json"
+  "thirty-second-check.json",
+  "long-rock-8bar.json"
 ]);
 const resolutions = [
   ["8th", 2],

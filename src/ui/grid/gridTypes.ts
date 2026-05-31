@@ -3,6 +3,7 @@ import type { GridResolution } from "../../core/model/quantize";
 
 export type GridViewOptions = {
   resolution: GridResolution;
+  barsPerBlock?: number;
 };
 
 export type GridCell = {
@@ -25,6 +26,7 @@ export type GridRenderModel = {
   secPerStep: number;
   steps: number;
   bars: number;
+  barsPerBlock: number;
   lanes: GridLaneModel[];
 };
 
@@ -32,7 +34,7 @@ export const BEATS_PER_BAR = 4;
 export const LABEL_WIDTH = 10;
 export const CELL_WIDTH = 3;
 export const EMPTY_CELL = "───";
-export const BARS_PER_BLOCK = 4;
+export const DEFAULT_BARS_PER_BLOCK = 4;
 
 export const GRID_LANES: DrumName[] = [
   "crash",

@@ -1,5 +1,4 @@
 import {
-  BARS_PER_BLOCK,
   BEATS_PER_BAR,
   CELL_WIDTH,
   LABEL_WIDTH,
@@ -8,16 +7,16 @@ import {
 
 export function renderGridText(model: GridRenderModel, playhead = -1) {
   const lines = [
-    `Grid ${model.resolution} | BPM ${model.bpm} | 4/4 | ${model.stepsPerBeat} cells/beat | ${model.bars} bars`
+    `Grid ${model.resolution} | BPM ${model.bpm} | 4/4 | ${model.stepsPerBeat} cells/beat | ${model.bars} bars | block=${model.barsPerBlock} bars`
   ];
 
-  for (let barStart = 0; barStart < model.bars; barStart += BARS_PER_BLOCK) {
-    const barEnd = Math.min(model.bars, barStart + BARS_PER_BLOCK);
+  for (let barStart = 0; barStart < model.bars; barStart += model.barsPerBlock) {
+    const barEnd = Math.min(model.bars, barStart + model.barsPerBlock);
     const stepStart = barStart * model.stepsPerBar;
     const stepEnd = barEnd * model.stepsPerBar;
 
     if (barStart > 0) lines.push("");
-    lines.push(`[Bars ${barStart + 1}-${barEnd}]`);
+    lines.push(`=== Bars ${barStart + 1}-${barEnd} / ${model.bars} ===`);
     lines.push(timelineLine("Bar", model, stepStart, stepEnd, playhead, (step) =>
       step % model.stepsPerBar === 0 ? String(step / model.stepsPerBar + 1) : ""
     ));

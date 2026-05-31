@@ -75,6 +75,7 @@ JSON は次の `DrumTrack` 形式を想定しています。
 - [`eighth-note-groove.json`](public/samples/eighth-note-groove.json): 8分主体のグルーヴ。8th 表示の読みやすさを確認します。
 - [`rock-fill-2bar.json`](public/samples/rock-fill-2bar.json): 2小節目にタム回しとクラッシュ戻りを含むフィル確認用です。
 - [`thirty-second-check.json`](public/samples/thirty-second-check.json): 32分の細かいイベントで 32nd 表示の崩れにくさを確認します。
+- [`long-rock-8bar.json`](public/samples/long-rock-8bar.json): 8小節の基本ロック。4小節ブロック分割、レーン名再掲、後半フィルを確認します。
 
 ## 開発コマンド
 
@@ -83,6 +84,8 @@ npm install
 npm run dev
 npm run build
 npm run check:samples
+npm run check:grid
+npm run check
 npm run preview
 ```
 

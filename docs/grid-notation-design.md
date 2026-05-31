@@ -103,3 +103,32 @@ Grid の文字列生成を DOM から分離し、現在は `buildGridRenderModel
 ### 次の自動化候補
 
 次の Sprint では、`gridRenderModel.ts` と `gridTextRenderer.ts` を Node から直接呼び出す軽量 TypeScript 実行環境、または build 後の JS を利用したスナップショット確認を検討します。現時点では依存追加を避け、JSON 構造チェックを優先しています。
+
+## 2026-05-31 Sprint #5 更新: 長い曲と Grid 自動確認
+
+Grid 表示はデフォルトで4小節ブロックです。先頭メタ情報に `block=4 bars` を表示し、各ブロックは `=== Bars 1-4 / 8 ===` のような見出しを持ちます。8小節以上の曲では次のブロックで `Bar` / `Beat` / `Count` とレーン名を再掲するため、長い曲でも小節位置とパートを追いやすくします。
+
+`GridViewOptions` には将来用に `barsPerBlock` を追加しました。現在の UI では指定していないためデフォルト4小節ですが、将来的には 1 / 2 / 4 小節ブロック切替や、32nd 表示だけ 2小節ブロックにする設計へ拡張できます。
+
+### `long-rock-8bar.json` の確認観点
+
+- 16th Grid で `=== Bars 1-4 / 8 ===` と `=== Bars 5-8 / 8 ===` に分かれること。
+- 各ブロックで `CR crash` / `HH closed` / `SN snare` / `BD kick` のレーン名が再掲されること。
+- 数小節ごとのクラッシュと、8小節目後半の軽いタムフィルが同じ Grid 上で追えること。
+- 8th / 16th / 32nd の切替で例外が出ず、32nd では行長 warning が出ても表示情報自体は生成できること。
+
+### `check:grid` の位置づけ
+
+`npm run check:grid` はブラウザを開かずに全サンプルを 8th / 16th / 32nd で確認します。Node 標準機能だけで動く mirror renderer なので、現在は `renderGridText()` の完全な snapshot test ではありません。確認する内容は以下です。
+
+- BPM / events / kick / snare / hihat の最低条件。
+- Grid metadata、`Bar` / `Beat` / `Count`、主要レーン名が出ること。
+- 4小節を超えるサンプルで2つ目以降のブロック見出しが出ること。
+- 各解像度の bar 数、stacked timing positions、最大行長を算出できること。
+- 最大行長が長い場合は warning に留め、32nd 表示の横幅制約として扱うこと。
+
+### Sprint #5 後の制約
+
+- `barsPerBlock` は型と renderer の土台のみで、UI から変更する操作は未実装です。
+- `check:grid` は同等仕様の mirror check であり、実 TypeScript renderer の snapshot regression ではありません。
+- 32nd の4小節ブロックは横に長くなりやすく、狭い画面では横スクロールが必要です。
